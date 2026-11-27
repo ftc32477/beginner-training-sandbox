@@ -1,121 +1,106 @@
-# GitHub 练习清单
+# GitHub 练习项（由易到难）
 
-共 5 条练习，按难度从易到难排列，建议顺序完成。
+共 5 条练习，建议按顺序完成。每条包含目标、步骤与验收标准。
 
-- [ ] 练习 1：Fork 与 Star（★ 入门，约 10 分钟）
-- [ ] 练习 2：分支 + 提交 + 第一个 Pull Request（★★ 基础，约 20 分钟）
-- [ ] 练习 3：用 Issue 管理任务并让提交自动关闭 Issue（★★★ 进阶，约 30 分钟）
-- [ ] 练习 4：解决合并冲突并整理提交历史（★★★★ 熟练，约 45 分钟）
-- [ ] 练习 5：GitHub Actions 自动化 + 分支保护 + 发布 Release（★★★★★ 综合，约 90 分钟）
-
----
-
-## 练习 1：Fork 与 Star
-
-**目标**：熟悉 GitHub 网页端基本操作，理解上游仓库（upstream）与派生仓库（fork）的关系。
-
-**步骤**
-1. 在 GitHub 上找一个开源仓库，例如 octocat/Hello-World。
-2. 点击右上角 Star，把仓库加入收藏。
-3. 点击 Fork，把它复制到你自己的账号下。
-4. 在你的 fork 中，用网页编辑器修改 README.md，在末尾加一行：Forked by <你的用户名>。
-5. 提交时写清 commit message，例如 docs: add fork note to README。
-6. 记录你的 fork 页面地址。
-
-**验收标准**
-- 你的账号下存在该仓库的 fork。
-- fork 的 README.md 中能看到你添加的那一行。
-- 提交历史里存在你写的 commit message。
-
-**提示**：fork 不会自动同步上游更新，之后可用网页上的 Sync fork 按钮拉取上游改动。
+- [ ] 练习 1：创建仓库与第一次提交
+- [ ] 练习 2：分支、修改与 Pull Request
+- [ ] 练习 3：Issue 驱动开发与提交信息规范
+- [ ] 练习 4：解决合并冲突与 Rebase
+- [ ] 练习 5：GitHub Actions 自动化流水线
 
 ---
 
-## 练习 2：分支 + 提交 + 第一个 Pull Request
+## 练习 1：创建仓库与第一次提交（入门）
 
-**目标**：走通「开分支 → 改内容 → 提交 → 提 PR → 合并」的完整协作流程。
+**目标**：熟悉「克隆 → 修改 → 暂存 → 提交 → 推送」这条最基本的链路。
 
 **步骤**
-1. 克隆你的 fork 到本地：git clone <你的仓库地址>。
-2. 从 main 创建新分支：git switch -c feat/add-exercises。
-3. 在本文件中新增一条属于你自己的练习，需包含目标与验收标准。
-4. 分 2~3 次提交，每次只做一件小事，提交信息使用约定式格式，例如 feat: add my own exercise、docs: polish exercise wording。
-5. 推送分支：git push -u origin feat/add-exercises。
-6. 在网页上点击 Compare & pull request，向 main 发起 PR。
-7. PR 描述写清三点：改了什么、为什么改、如何验证。
-8. 自己 review 一遍 diff，然后用 Squash and merge 合并。
-9. 本地切回 main 并同步：git switch main && git pull，再删除已合并的本地分支。
+1. 在 GitHub 上创建仓库 hello-github，初始化时勾选生成 README.md。
+2. 本地克隆：git clone git@github.com:<你的用户名>/hello-github.git
+3. 新建文件 notes.md，写入三行你今天学到的 Git 命令。
+4. 查看状态并暂存：git status，然后 git add notes.md
+5. 提交并推送：git commit -m "docs: add git notes"，然后 git push
 
 **验收标准**
-- PR 有标题和结构化描述。
-- PR 的 diff 只包含本次练习相关改动。
-- 合并后 main 上有你的新练习，本地 main 与远程一致。
-
-**提示**：提交前用 git status 和 git diff --staged 确认没有误提交无关文件。
+- [ ] GitHub 网页上能看到 notes.md，且提交作者是你本人。
+- [ ] 能用自己的话说明工作区、暂存区、本地仓库、远程仓库的区别。
 
 ---
 
-## 练习 3：用 Issue 管理任务并让提交自动关闭 Issue
+## 练习 2：分支、修改与 Pull Request（初级）
 
-**目标**：学会用 Issue 拆解任务，并用关键字把提交与 Issue 关联起来。
+**目标**：掌握功能分支工作流，完整走通一次 Pull Request。
 
 **步骤**
-1. 新建一个 Issue，标题为「为每条练习补一句话简介」，正文写清背景与期望结果。
-2. 给 Issue 打标签，例如 documentation、good first issue。
-3. 创建分支 fix/issue-<编号>-summary。
-4. 完成修改，提交信息中使用关闭关键字，例如 docs: add one-line summary (closes #<编号>)。
-5. 发起 PR，在描述中写 Closes #<编号>，观察 Issue 与 PR 的双向链接。
-6. 合并后回到 Issue 页面，确认它已被自动关闭。
+1. 从 main 拉出分支：git switch -c feat/add-greeting
+2. 在 README.md 末尾追加一段「问候语」章节并提交。
+3. 推送分支：git push -u origin feat/add-greeting
+4. 在网页上发起 Pull Request，描述中说明「改了什么、为什么改」。
+5. 自己作为 reviewer 留一条评论，然后用 Squash merge 合并。
+6. 回到本地清理：git switch main，git pull，git branch -d feat/add-greeting
 
 **验收标准**
-- Issue 有明确的标题、正文与标签。
-- PR 页面右侧显示关联的 Issue。
-- 合并后 Issue 状态为 Closed，并出现引用提交的链接。
-
-**提示**：常用关闭关键字有 close、closes、fix、fixes、resolve、resolves，必须写在提交信息或 PR 描述里，写在代码注释里无效。
+- [ ] PR 页面上能看到提交记录、评论与合并记录。
+- [ ] 本地功能分支已删除，main 与远程保持一致。
 
 ---
 
-## 练习 4：解决合并冲突并整理提交历史
+## 练习 3：Issue 驱动开发与提交信息规范（中级）
 
-**目标**：掌握冲突产生的条件与解决方式，理解 merge 与 rebase 的差别。
+**目标**：学会用 Issue 描述需求，并用可追溯的提交信息关联它。
 
 **步骤**
-1. 从 main 切出分支 a，修改本文件中同一行内容并提交。
-2. 切回 main，修改同一行内容并提交，制造冲突。
-3. 在分支 a 上执行 git rebase main，观察冲突标记 <<<<<<<、=======、>>>>>>>。
-4. 手工解决冲突：保留正确内容、删除冲突标记，然后 git add <文件> 与 git rebase --continue。
-5. 练习一次撤销：解冲突过程中执行 git rebase --abort，确认能干净回退，再重新做一遍。
-6. 用交互式 rebase 整理历史：git rebase -i main，把 3 个零碎提交 squash 成 1 个。
-7. 推送分支（已推送过则用 git push --force-with-lease），发起 PR 并合并。
+1. 新建 Issue，标题为「README.md 缺少使用说明」，正文写出验收要点清单。
+2. 记录 Issue 编号（例如 #7）。
+3. 新建分支 docs/usage-guide，补充「使用说明」章节。
+4. 用 Conventional Commits 规范提交，并在正文中关闭 Issue：
+   git commit -m "docs(readme): add usage guide" -m "Closes #7"
+5. 发起 PR 并合并，确认 Issue 自动变为 Closed。
+6. 给该 Issue 添加 documentation 标签并指派给自己。
 
 **验收标准**
-- 能说清什么情况下会产生冲突。
-- 合并后文件中无冲突标记残留，内容符合预期。
-- PR 中该分支只有 1 个干净提交。
-
-**提示**：解冲突时先看 git status 中标记为 both modified 的文件；--force-with-lease 比 --force 安全，别人推过新提交时它会拒绝覆盖。
+- [ ] Issue 因 PR 合并而自动关闭。
+- [ ] 提交信息符合 type(scope): subject 格式，正文说明了动机。
 
 ---
 
-## 练习 5：GitHub Actions 自动化 + 分支保护 + 发布 Release
+## 练习 4：解决合并冲突与 Rebase（中高级）
 
-**目标**：把仓库升级为有 CI 检查、有保护规则、有版本发布的规范项目。
+**目标**：理解冲突产生的原因，并区分 merge 与 rebase 对历史的影响。
 
 **步骤**
-1. 写工作流：在 .github/workflows/ci.yml 中定义在 push 与 pull_request 时触发的 workflow，至少包含两个 job：
-   - lint：检查 Markdown 或代码风格，例如 markdownlint-cli2、eslint、ruff。
-   - test：运行项目测试，没有测试的项目写一个最小脚本并按结果 exit 0 或 exit 1。
-   要求：设置 permissions: contents: read，使用 actions/checkout@v4，并为 job 设置 timeout-minutes。
-2. 做缓存：为依赖安装步骤加上 actions/cache 或 setup action 自带缓存，让第二次运行明显变快。
-3. 开分支保护：Settings → Branches 中为 main 添加规则——禁止直接推送必须走 PR、必须通过 CI 检查才能合并、至少 1 人 approve。
-4. 验证规则：尝试直接向 main 推送确认被拒绝；再提一个会让 CI 失败的 PR，确认合并按钮变灰。
-5. 加 CODEOWNERS：创建 .github/CODEOWNERS，为目录指定 owner，观察 PR 自动请求 review。
-6. 发布 Release：打标签 git tag -a v0.1.0 -m "first release" 并推送 git push origin v0.1.0，在网页上基于该标签创建 Release，写清更新说明。
+1. 从 main 创建两个分支 feat/a 与 feat/b，让它们修改 README.md 的同一行。
+2. 先合并 feat/a 到 main，再合并 feat/b，人为制造冲突。
+3. 本地切到 feat/b 执行 git rebase main，手动解决冲突后 git add . 与 git rebase --continue。
+4. 用 git log --graph --oneline --all 观察 merge 与 rebase 两种历史形态的差异。
+5. 把观察结论追加到 notes.md 并提交。
 
 **验收标准**
-- CI 在 push 与 PR 上都能触发，第二次运行因缓存而更快。
-- 直接推送 main 被拒绝，CI 未通过的 PR 无法合并。
-- 仓库存在 v0.1.0 标签与对应 Release 页面。
+- [ ] 冲突被正确解决，两个分支的改动都保留了下来。
+- [ ] 能说明为什么 rebase 会重写提交历史，因此不应对已共享的分支使用。
 
-**提示**：写 Actions 时先在本地用 act 或直接在分支上试跑，避免反复污染 main；Release 说明建议按新增、修复、破坏性变更分组。
+---
+
+## 练习 5：GitHub Actions 自动化流水线（高级）
+
+**目标**：为仓库搭建一条自动校验流水线，体验 CI 的门禁作用。
+
+**步骤**
+1. 在仓库根目录新建 .github/workflows/ci.yml。
+2. 触发条件配置为 push 到 main 以及所有 pull_request。
+3. 编写 job：检出代码 → 安装 Node → 执行 npm ci 与 npm test（无测试时可用 echo 占位）。
+4. 提交并推送，在 Actions 页面观察运行结果。
+5. 故意让一条检查失败，确认 PR 上出现红色状态；修复后确认变绿。
+6. 在仓库设置中开启分支保护，要求 CI 通过才能合并到 main。
+
+**验收标准**
+- [ ] Actions 页面能看到成功与失败两种运行记录。
+- [ ] CI 未通过时，PR 的合并按钮被禁用。
+
+---
+
+## 完成后的自检
+
+- [ ] 5 条练习全部勾选完成。
+- [ ] git log 中能看到一条清晰、可读的提交历史。
+- [ ] 能完整讲清一次「从 Issue 到合并」的协作流程。
